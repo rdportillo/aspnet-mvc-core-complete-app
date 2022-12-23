@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Dev.App.ViewModels.ProductViewModel>
+
+@{
+    ViewData["Title"] = "Products List";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a class="btn btn-info" asp-action="Create">New Product</a>
+</p>
+<table class="table table-hover">
+    <thead class="bg-black">
+        <tr>
+            <th class="text-white">
+
+            </th>
+            <th class="text-white">
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th class="text-white">
+                @Html.DisplayNameFor(model => model.Supplier)
+            </th>
+            <th class="text-white">
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th class="text-white">
+                @Html.DisplayNameFor(model => model.Active)
+            </th>
+            <th class="text-white"></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Supplier.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Active)
+            </td>
+            <td>
+                <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id"><span class="fa fa-search"></span></a>
+                <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id"><span class="fa fa-pencil-alt"></span></a>
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id"><span class="fa fa-trash"></span></a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

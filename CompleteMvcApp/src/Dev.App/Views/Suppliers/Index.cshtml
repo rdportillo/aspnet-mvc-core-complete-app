@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Dev.App.ViewModels.SupplierViewModel>
+
+@{
+    ViewData["Title"] = "Suppliers List";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a class="btn btn-info" asp-action="Create">New Supplier</a>
+</p>
+<table class="table table-hover">
+    <thead class="bg-dark">
+        <tr>
+            <th class="text-white">
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th class="text-white">
+                @Html.DisplayNameFor(model => model.Document)
+            </th>
+            <th class="text-white">
+                @Html.DisplayNameFor(model => model.Active)
+            </th>
+            <th class="text-white"></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Document)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Active)
+            </td>
+            <td class="text-end">
+                <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id"><span class="fa fa-search"></span></a>
+                <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id"><span class="fa fa-pencil-alt"></span></a>
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id"><span class="fa fa-trash"></span></a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
