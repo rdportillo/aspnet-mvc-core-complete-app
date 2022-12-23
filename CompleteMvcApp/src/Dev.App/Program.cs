@@ -1,5 +1,7 @@
 using Dev.App.Data;
+using Dev.Business.Interfaces;
 using Dev.Data.Context;
+using Dev.Data.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,6 +22,12 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddControllersWithViews();
+
+// Dependency Injection
+builder.Services.AddScoped<AppDbContext>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
+builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 
 var app = builder.Build();
 
