@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Dev.App.ViewModels.SupplierViewModel>
+﻿@using Dev.App.Extensions
+@model IEnumerable<Dev.App.ViewModels.SupplierViewModel>
 
 @{
     ViewData["Title"] = "Suppliers List";
@@ -10,7 +11,7 @@
     <a class="btn btn-info" asp-action="Create">New Supplier</a>
 </p>
 <table class="table table-hover">
-    <thead class="bg-dark">
+    <thead class="bg-black">
         <tr>
             <th class="text-white">
                 @Html.DisplayNameFor(model => model.Name)
@@ -31,7 +32,7 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Document)
+                @this.DocumentFormatting(item.SupplierType, item.Document)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Active)

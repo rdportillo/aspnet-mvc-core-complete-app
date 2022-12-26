@@ -1,0 +1,54 @@
+﻿@model Dev.App.ViewModels.SupplierViewModel
+
+<div style="padding-top: 20px">
+    <div>
+        <hr />
+        <h4>Address</h4>
+    </div>
+
+    @if(Model != null)
+    {
+        <table class="table table-hover">
+            <thead class="bg-black">
+                <tr>
+                    <th class="text-white">
+                        @Html.DisplayNameFor(model => model.Address.Address1)
+                    </th>
+                    <th class="text-white">
+                        @Html.DisplayNameFor(model => model.Address.Address2)
+                    </th>
+                    <th class="text-white">
+                        @Html.DisplayNameFor(model => model.Address.ZipCode)
+                    </th>
+                    <th class="text-white">
+                        @Html.DisplayNameFor(model => model.Address.City)
+                    </th>
+                    <th class="text-white">
+                        @Html.DisplayNameFor(model => model.Address.Province)
+                    </th>
+                    <th class="text-white"></th>
+                </tr>
+            </thead>
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => model.Address.Address1)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Address.Address2)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Address.ZipCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Address.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Address.Province)
+                </td>
+                <td class="text-end">
+                    <a class="btn btn-warning"><span title="Edit" class="fa fa-pencil-alt"></span></a>
+                </td>
+            </tr>
+        </table>
+    }
+</div>

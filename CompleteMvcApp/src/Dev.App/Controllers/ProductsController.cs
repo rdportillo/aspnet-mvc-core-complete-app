@@ -29,7 +29,7 @@ namespace Dev.App.Controllers
 
         public async Task<IActionResult> Details(Guid id)
         {
-            var productViewModel = GetProduct(id);
+            var productViewModel = await GetProduct(id);
             
             if (productViewModel == null) return NotFound();
 
