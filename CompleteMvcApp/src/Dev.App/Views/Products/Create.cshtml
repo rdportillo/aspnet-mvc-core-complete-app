@@ -7,7 +7,7 @@
 <h3 style="padding-top: 50px">@ViewData["Title"]</h3>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-10">
         <form enctype="multipart/form-data" asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -30,7 +30,7 @@
             <div class="form-group">
                 <label asp-for="ImageUpload" class="control-label"></label>
 
-                <div class="form-control">
+                <div class="form-control" style="width: 400px">
                     <input type="file" class="form-control" id="ImageUpload" asp-for="ImageUpload" />
                     <label data-browse="Search" style="width: 400px" class="custom-file-label" for="ImageUpload"></label>
                     <label style="display: none" id="image_name"></label>
@@ -50,7 +50,7 @@
             </div>
             <div class="form-group">
                 <input type="submit" value="Register" class="btn btn-primary" />
-                <a btn btn-info asp-action="Index">Back</a>
+                <a class="btn btn-info" asp-action="Index">Back</a>
             </div>
         </form>
     </div>
