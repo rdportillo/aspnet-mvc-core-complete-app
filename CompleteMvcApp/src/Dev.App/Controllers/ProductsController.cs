@@ -7,6 +7,7 @@ using System.Net;
 
 namespace Dev.App.Controllers
 {
+    [Route("products")]
     public class ProductsController : BaseController
     {
         private readonly IProductRepository _productRepository;
@@ -22,11 +23,13 @@ namespace Dev.App.Controllers
             _mapper = mapper;
         }
 
+        [Route("list")]
         public async Task<IActionResult> Index()
         {
             return View(_mapper.Map<IEnumerable<ProductViewModel>>(await _productRepository.GetProductsSuppliers()));
         }
 
+        [Route("details/{id:guid}")]
         public async Task<IActionResult> Details(Guid id)
         {
             var productViewModel = await GetProduct(id);
@@ -36,12 +39,14 @@ namespace Dev.App.Controllers
             return View(productViewModel);
         }
 
+        [Route("create")]
         public async Task<IActionResult> Create()
         {
             var productViewModel = await RetrieveSuppliers(new ProductViewModel());
             return View(productViewModel);
         }
 
+        [Route("create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ProductViewModel productViewModel)
@@ -63,6 +68,7 @@ namespace Dev.App.Controllers
             return RedirectToAction("Index");
         }
 
+        [Route("edit/{id:guid}")]
         public async Task<IActionResult> Edit(Guid id)
         {
             var productViewModel = await GetProduct(id);
@@ -72,6 +78,7 @@ namespace Dev.App.Controllers
             return View(productViewModel);
         }
 
+        [Route("edit/{id:guid}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, ProductViewModel productViewModel)
@@ -106,6 +113,7 @@ namespace Dev.App.Controllers
             return RedirectToAction("Index");
         }
 
+        [Route("delete/{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var productViewModel = await GetProduct(id);
@@ -115,6 +123,7 @@ namespace Dev.App.Controllers
             return View(productViewModel);
         }
 
+        [Route("delete/{id:guid}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
