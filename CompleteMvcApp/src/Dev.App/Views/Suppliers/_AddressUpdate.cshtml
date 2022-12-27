@@ -1,0 +1,31 @@
+﻿@model Dev.App.ViewModels.SupplierViewModel
+@{
+    ViewData["Title"] = "Updating Address";
+}
+
+<div class="modal-header">
+    <h4 class="modal-title">@ViewData["Title"]</h4>
+    <button type="button" class="btn-close" data-dismiss="modal">
+        <span aria-hidden="true">x</span><span class="sr-only">Close</span>
+    </button>
+</div>
+
+<form asp-action="AddressUpdate">
+    <div class="modal-body">
+        <input type="hidden" asp-for="Address.SupplierId" />
+        <input type="hidden" asp-for="Address.Id" />
+
+        <partial name="_Address" />
+
+        <div class="modal-footer">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Address Update" class="btn btn-success" />
+                <input type="button" value="Close" class="btn btn-info" data-dismiss="modal" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    SearchZipCode();
+</script>

@@ -9,12 +9,15 @@ namespace Dev.App.Controllers
     public class SuppliersController : BaseController
     {
         private readonly ISupplierRepository _supplierRepository;
+        private readonly IAddressRepository _addressRepository;
         private readonly IMapper _mapper;
 
         public SuppliersController(ISupplierRepository supplierRepository,
+                                   IAddressRepository addressRepository, 
                                    IMapper mapper)
         {
             _supplierRepository = supplierRepository;
+            _addressRepository = addressRepository;
             _mapper = mapper;
         }
 
@@ -98,6 +101,39 @@ namespace Dev.App.Controllers
             await _supplierRepository.DeleteById(id);
             
             return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> GetAddress(Guid id)
+        {
+            var supplier = await GetSupplierAddress(id);
+
+            if(supplier == null) return NotFound();
+
+            return PartialView("_AddressDetails", supplier);
+        }
+
+        public async Task<IActionResult> AddressUpdate(Guid id)
+        {
+            var supplier = await GetSupplierAddress(id);
+
+            if(supplier == null) return NotFound();
+
+            return PartialView("_AddressUpdate", new SupplierViewModel { Address = supplier.Address });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddressUpdate(SupplierViewModel supplierViewModel)
+        {
+            ModelState.Remove("Name");
+            ModelState.Remove("Document");
+
+            if(!ModelState.IsValid) return PartialView("_AddressUpdate", supplierViewModel);
+
+            await _addressRepository.Update(_mapper.Map<Address>(supplierViewModel.Address));
+
+            var url = Url.Action("GetAddress", "Suppliers", new { id = supplierViewModel.Address.SupplierId });
+            return Json(new { success = true, url });
         }
 
         private async Task<SupplierViewModel> GetSupplierAddress(Guid id)

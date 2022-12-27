@@ -46,7 +46,9 @@
                     @Html.DisplayFor(model => model.Address.Province)
                 </td>
                 <td class="text-end">
-                    <a class="btn btn-warning"><span title="Edit" class="fa fa-pencil-alt"></span></a>
+                    <a asp-action="AddressUpdate" asp-route-id="@Model.Id" class="btn btn-warning" data-modal="">
+                        <span title="Edit" class="fa fa-pencil-alt"></span>
+                    </a>
                 </td>
             </tr>
         </table>
