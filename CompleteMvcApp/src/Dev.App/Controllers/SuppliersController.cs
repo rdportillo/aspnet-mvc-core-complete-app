@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
+using Dev.App.Attributes;
 using Dev.App.ViewModels;
 using Dev.Business.Interfaces;
 using Dev.Business.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dev.App.Controllers
 {
+    [Authorize]
     [Route("suppliers")]
     public class SuppliersController : BaseController
     {
@@ -23,12 +26,14 @@ namespace Dev.App.Controllers
             _mapper = mapper;
         }
 
+        [AllowAnonymous]
         [Route("list")]
         public async Task<IActionResult> Index()
         {
               return View(_mapper.Map<IEnumerable<SupplierViewModel>>(await _supplierRepository.GetAll()));
         }
 
+        [AllowAnonymous]
         [Route("details/{id:guid}")]
         public async Task<IActionResult> Details(Guid id)
         {
@@ -42,12 +47,14 @@ namespace Dev.App.Controllers
             return View(supplierViewModel);
         }
 
+        [ClaimsAuthorize("Suppliers", "Add")]
         [Route("create")]
         public IActionResult Create()
         {
             return View();
         }
 
+        [ClaimsAuthorize("Suppliers", "Add")]
         [Route("create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -63,6 +70,7 @@ namespace Dev.App.Controllers
             return RedirectToAction("Index");
         }
 
+        [ClaimsAuthorize("Suppliers", "Edit")]
         [Route("edit/{id:guid}")]
         public async Task<IActionResult> Edit(Guid id)
         {
@@ -75,6 +83,7 @@ namespace Dev.App.Controllers
             return View(supplierViewModel);
         }
 
+        [ClaimsAuthorize("Suppliers", "Edit")]
         [Route("edit/{id:guid}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -92,6 +101,7 @@ namespace Dev.App.Controllers
             return RedirectToAction("Index");
         }
 
+        [ClaimsAuthorize("Suppliers", "Delete")]
         [Route("delete/{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -102,6 +112,7 @@ namespace Dev.App.Controllers
             return View(supplierViewModel);
         }
 
+        [ClaimsAuthorize("Suppliers", "Delete")]
         [Route("delete/{id:guid}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -118,6 +129,7 @@ namespace Dev.App.Controllers
             return RedirectToAction("Index");
         }
 
+        [AllowAnonymous]
         [Route("get-address/{id:guid}")]
         public async Task<IActionResult> GetAddress(Guid id)
         {
@@ -128,6 +140,7 @@ namespace Dev.App.Controllers
             return PartialView("_AddressDetails", supplier);
         }
 
+        [ClaimsAuthorize("Suppliers", "Edit")]
         [Route("update-address/{id:guid}")]
         public async Task<IActionResult> AddressUpdate(Guid id)
         {
@@ -138,6 +151,7 @@ namespace Dev.App.Controllers
             return PartialView("_AddressUpdate", new SupplierViewModel { Address = supplier.Address });
         }
 
+        [ClaimsAuthorize("Suppliers", "Edit")]
         [Route("update-address/{id:guid}")]
         [HttpPost]
         [ValidateAntiForgeryToken]

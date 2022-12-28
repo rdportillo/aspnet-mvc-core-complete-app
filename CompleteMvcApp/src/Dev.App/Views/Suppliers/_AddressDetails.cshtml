@@ -9,7 +9,7 @@
     @if(Model != null)
     {
         <table class="table table-hover">
-            <thead class="bg-black">
+            <thead class="bg-dark">
                 <tr>
                     <th class="text-white">
                         @Html.DisplayNameFor(model => model.Address.Address1)
@@ -45,8 +45,8 @@
                 <td>
                     @Html.DisplayFor(model => model.Address.Province)
                 </td>
-                <td class="text-end">
-                    <a asp-action="AddressUpdate" asp-route-id="@Model.Id" class="btn btn-warning" data-modal="">
+                <td class="text-right">
+                    <a suppress-by-action="Edit,GetAddress" asp-action="AddressUpdate" asp-route-id="@Model.Id" class="btn btn-warning" data-modal="">
                         <span title="Edit" class="fa fa-pencil-alt"></span>
                     </a>
                 </td>
