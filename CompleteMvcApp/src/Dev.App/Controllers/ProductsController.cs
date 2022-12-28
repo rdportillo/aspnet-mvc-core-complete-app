@@ -12,15 +12,19 @@ namespace Dev.App.Controllers
     {
         private readonly IProductRepository _productRepository;
         private readonly ISupplierRepository _supplierRepository;
+        private readonly IProductService _productService;
         private readonly IMapper _mapper;
 
         public ProductsController(IProductRepository productRepository,
                                   ISupplierRepository supplierRepository,
-                                  IMapper mapper)
+                                  IMapper mapper,
+                                  IProductService productService,
+                                  INotifier notifier) : base(notifier)
         {
             _productRepository = productRepository;
             _supplierRepository = supplierRepository;
             _mapper = mapper;
+            _productService = productService;
         }
 
         [Route("list")]
@@ -63,7 +67,9 @@ namespace Dev.App.Controllers
 
             productViewModel.Image = imgPrefix + productViewModel.ImageUpload.FileName;
 
-            await _productRepository.Add(_mapper.Map<Product>(productViewModel));
+            await _productService.Add(_mapper.Map<Product>(productViewModel));
+
+            if(!ValidOperation()) return View(productViewModel);
 
             return RedirectToAction("Index");
         }
@@ -108,7 +114,9 @@ namespace Dev.App.Controllers
             updatedProductViewModel.Price = productViewModel.Price;
             updatedProductViewModel.Active = productViewModel.Active;
 
-            await _productRepository.Update(_mapper.Map<Product>(updatedProductViewModel));
+            await _productService.Update(_mapper.Map<Product>(updatedProductViewModel));
+
+            if(!ValidOperation()) return View(productViewModel);
 
             return RedirectToAction("Index");
         }
@@ -132,7 +140,11 @@ namespace Dev.App.Controllers
 
             if (productViewModel == null) return NotFound();
 
-            await _productRepository.DeleteById(id);
+            await _productService.Remove(id);
+
+            if (!ValidOperation()) return View(productViewModel);
+
+            TempData["Success"] = "Product deleted successfully!";
             
             return RedirectToAction("Index");
         }

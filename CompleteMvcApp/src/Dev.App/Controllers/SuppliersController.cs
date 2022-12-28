@@ -10,15 +10,16 @@ namespace Dev.App.Controllers
     public class SuppliersController : BaseController
     {
         private readonly ISupplierRepository _supplierRepository;
-        private readonly IAddressRepository _addressRepository;
+        private readonly ISupplierService _supplierService;
         private readonly IMapper _mapper;
 
         public SuppliersController(ISupplierRepository supplierRepository,
-                                   IAddressRepository addressRepository, 
-                                   IMapper mapper)
+                                   ISupplierService supplierService, 
+                                   IMapper mapper,
+                                   INotifier notifier) : base(notifier)
         {
             _supplierRepository = supplierRepository;
-            _addressRepository = addressRepository;
+            _supplierService = supplierService;
             _mapper = mapper;
         }
 
@@ -55,10 +56,11 @@ namespace Dev.App.Controllers
             if (!ModelState.IsValid) return View(supplierViewModel);
 
             var supplier = _mapper.Map<Supplier>(supplierViewModel);
-            await _supplierRepository.Add(supplier);
+            await _supplierService.Add(supplier);
+
+            if (!ValidOperation()) return View(supplierViewModel);
 
             return RedirectToAction("Index");
-            
         }
 
         [Route("edit/{id:guid}")]
@@ -83,7 +85,9 @@ namespace Dev.App.Controllers
             if (!ModelState.IsValid) return View(supplierViewModel);
 
             var supplier = _mapper.Map<Supplier>(supplierViewModel);
-            await _supplierRepository.Update(supplier);
+            await _supplierService.Update(supplier);
+
+            if(!ValidOperation()) return View(await GetSupplierProductsAddress(id));
 
             return RedirectToAction("Index");
         }
@@ -107,7 +111,9 @@ namespace Dev.App.Controllers
 
             if (supplierViewModel == null) return NotFound();
 
-            await _supplierRepository.DeleteById(id);
+            await _supplierService.Remove(id);
+
+            if (!ValidOperation()) return View(supplierViewModel);
             
             return RedirectToAction("Index");
         }
@@ -142,7 +148,9 @@ namespace Dev.App.Controllers
 
             if(!ModelState.IsValid) return PartialView("_AddressUpdate", supplierViewModel);
 
-            await _addressRepository.Update(_mapper.Map<Address>(supplierViewModel.Address));
+            await _supplierService.AddressUpdate(_mapper.Map<Address>(supplierViewModel.Address));
+
+            if (!ValidOperation()) return PartialView("_AddressUpdate", supplierViewModel);
 
             var url = Url.Action("GetAddress", "Suppliers", new { id = supplierViewModel.Address.SupplierId });
             return Json(new { success = true, url });

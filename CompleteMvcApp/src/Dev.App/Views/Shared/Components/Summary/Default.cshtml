@@ -1,0 +1,30 @@
+﻿@if(ViewData.ModelState.ErrorCount > 0)
+{
+    <div style="padding-top: 15px"></div>
+
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <h3 id="returnMessage" style="padding-top: 20px">Ops! Something went wrong :(</h3>
+        <div style="padding-top: 20px" asp-validation-summary="ModelOnly" class="text-danger"></div>
+    </div>
+}
+
+@if(!string.IsNullOrEmpty(ViewBag.Success))
+{
+    <div style="padding-top: 15px"></div>
+
+    <div id="messageBox" class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <h3 id="returnMessage">@ViewBag.Success</h3>
+    </div>
+}
+
+@if(TempData["Success"] != null)
+{
+    <div style="padding-top: 15px"></div>
+
+    <div id="messageBox" class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <h3 id="returnMessage">@Html.Raw(TempData["Success"].ToString())</h3>
+    </div>
+}

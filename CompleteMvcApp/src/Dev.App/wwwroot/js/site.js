@@ -83,3 +83,7 @@ function SearchZipCode() {
         });
     });
 }
+
+$(document).ready(function () {
+    $("#messageBox").fadeOut(2500);
+});

@@ -6,12 +6,12 @@
 }
 
 <h1>@ViewData["Title"]</h1>
-
+<hr />
 <p>
     <a class="btn btn-info" asp-action="Create">New Supplier</a>
 </p>
 <table class="table table-hover">
-    <thead class="bg-black">
+    <thead class="bg-dark">
         <tr>
             <th class="text-white">
                 @Html.DisplayNameFor(model => model.Name)
@@ -37,7 +37,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Active)
             </td>
-            <td class="text-end">
+            <td class="text-right">
                 <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id"><span class="fa fa-search"></span></a>
                 <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id"><span class="fa fa-pencil-alt"></span></a>
                 <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id"><span class="fa fa-trash"></span></a>
