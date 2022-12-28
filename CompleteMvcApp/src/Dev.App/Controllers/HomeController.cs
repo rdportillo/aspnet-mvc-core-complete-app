@@ -1,6 +1,5 @@
 ﻿using Dev.App.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 
 namespace Dev.App.Controllers
 {
@@ -23,10 +22,35 @@ namespace Dev.App.Controllers
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [Route("error/{id:length(3,3)}")]
+        public IActionResult Error(int id)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var modelError = new ErrorViewModel();
+
+            if (id == 500)
+            {
+                modelError.Message = "An error has occurred! Try again later on or contact our Support Team.";
+                modelError.Title = "An error has occurred!";
+                modelError.ErrorCode = id;
+            }
+            else if (id == 404)
+            {
+                modelError.Message = "The page does not exist! <br />If you have any questions or concerns contact our Support Team.";
+                modelError.Title = "Ops! Page not found.";
+                modelError.ErrorCode = id;
+            }
+            else if (id == 403)
+            {
+                modelError.Message = "You don't have access to perform this action.";
+                modelError.Title = "Forbidden";
+                modelError.ErrorCode = id;
+            }
+            else
+            {
+                return StatusCode(404);
+            }
+
+            return View("Error", modelError);
         }
     }
 }
