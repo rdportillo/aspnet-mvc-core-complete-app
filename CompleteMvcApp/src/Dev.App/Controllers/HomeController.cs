@@ -47,7 +47,7 @@ namespace Dev.App.Controllers
             }
             else
             {
-                return StatusCode(404);
+                return StatusCode(500);
             }
 
             return View("Error", modelError);

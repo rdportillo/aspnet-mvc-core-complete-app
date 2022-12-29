@@ -57,7 +57,6 @@ namespace Dev.App.Controllers
         [ClaimsAuthorize("Suppliers", "Add")]
         [Route("create")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(SupplierViewModel supplierViewModel)
         {
             if (!ModelState.IsValid) return View(supplierViewModel);
@@ -86,7 +85,6 @@ namespace Dev.App.Controllers
         [ClaimsAuthorize("Suppliers", "Edit")]
         [Route("edit/{id:guid}")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, SupplierViewModel supplierViewModel)
         {
             if (id != supplierViewModel.Id) return NotFound();
@@ -115,7 +113,6 @@ namespace Dev.App.Controllers
         [ClaimsAuthorize("Suppliers", "Delete")]
         [Route("delete/{id:guid}")]
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var supplierViewModel = await GetSupplierAddress(id);
@@ -154,7 +151,6 @@ namespace Dev.App.Controllers
         [ClaimsAuthorize("Suppliers", "Edit")]
         [Route("update-address/{id:guid}")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddressUpdate(SupplierViewModel supplierViewModel)
         {
             ModelState.Remove("Name");

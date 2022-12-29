@@ -58,7 +58,6 @@ namespace Dev.App.Controllers
         [ClaimsAuthorize("Products", "Add")]
         [Route("create")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ProductViewModel productViewModel)
         {
             productViewModel = await RetrieveSuppliers(productViewModel);
@@ -94,7 +93,6 @@ namespace Dev.App.Controllers
         [ClaimsAuthorize("Products", "Edit")]
         [Route("edit/{id:guid}")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, ProductViewModel productViewModel)
         {
             if (id != productViewModel.Id) return NotFound();
@@ -143,7 +141,6 @@ namespace Dev.App.Controllers
         [ClaimsAuthorize("Products", "Delete")]
         [Route("delete/{id:guid}")]
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var productViewModel = await GetProduct(id);

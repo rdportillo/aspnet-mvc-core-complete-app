@@ -15,24 +15,20 @@ if (builder.Environment.IsProduction())
     builder.Configuration.AddUserSecrets<Program>();
 }
 
-// Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
 // Identity configuration
 builder.Services.AddIdentityConfiguration(builder.Configuration);
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(connectionString));
-
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
-builder.Services.AddControllersWithViews();
-
-// Dependency Injection configuration
-builder.Services.ResolveDependencies();
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // AutoMapper configuration
 builder.Services.AddAutoMapper(typeof(Program));
+
+// MVC configuration
+builder.Services.AddMvcConfiguration();
+
+// Dependency Injection configuration
+builder.Services.ResolveDependencies();
 
 var app = builder.Build();
 
